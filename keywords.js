@@ -74,7 +74,10 @@ if (startTableExerciseBtn) {
     const limit = parseInt(document.getElementById('config-limit-input')?.value) || 10;
 
     let items = [...activeTableData.items];
-    items = items.filter(item => !item.unit || !hiddenUnits.has(item.unit));
+    // hiddenUnits が未定義の場合のエラーを防ぐため安全にチェック
+    if (typeof hiddenUnits !== 'undefined' && hiddenUnits) {
+      items = items.filter(item => !item.unit || !hiddenUnits.has(item.unit));
+    }
 
     if (scope === 'mistaken') {
       items = items.filter(item => localStorage.getItem(`qa_hist_${activeTableData.id}_${item.id}`) === 'incorrect');
