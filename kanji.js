@@ -301,7 +301,10 @@ if (startKanjiExerciseBtn) {
     const dirFilter = document.getElementById('kanji-config-dir-select')?.value || 'all';
 
     let passagesList = [...activeKanjiData.passages];
-    passagesList = passagesList.filter(p => !p.unit || !hiddenUnits.has(p.unit));
+    // hiddenUnits が未定義の場合のエラーを防ぐため安全にチェック
+    if (typeof hiddenUnits !== 'undefined' && hiddenUnits) {
+      passagesList = passagesList.filter(p => !p.unit || !hiddenUnits.has(p.unit));
+    }
 
     if (dirFilter !== 'all') {
       passagesList = passagesList.map(p => ({
